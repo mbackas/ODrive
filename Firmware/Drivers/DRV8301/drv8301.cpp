@@ -66,7 +66,7 @@ bool Drv8301::config(float requested_gain, float* actual_gain) {
 }
 
 bool Drv8301::init() {
-    uint16_t val;
+    // uint16_t val;
 
     if (state_ == kStateReady) {
         return true;
@@ -81,29 +81,29 @@ bool Drv8301::init() {
     osDelay(20); // t_spi_ready, max = 10ms
 
     // Write current configuration
-    bool wrote_regs = write_reg(kRegNameControl1, regs_.control_register_1)
-                       && write_reg(kRegNameControl1, regs_.control_register_1)
-                       && write_reg(kRegNameControl1, regs_.control_register_1)
-                       && write_reg(kRegNameControl1, regs_.control_register_1)
-                       && write_reg(kRegNameControl1, regs_.control_register_1) // the write operation tends to be ignored if only done once (not sure why)
-                       && write_reg(kRegNameControl2, regs_.control_register_2);
-    if (!wrote_regs) {
-        return false;
-    }
+    // bool wrote_regs = write_reg(kRegNameControl1, regs_.control_register_1)
+    //                    && write_reg(kRegNameControl1, regs_.control_register_1)
+    //                    && write_reg(kRegNameControl1, regs_.control_register_1)
+    //                    && write_reg(kRegNameControl1, regs_.control_register_1)
+    //                    && write_reg(kRegNameControl1, regs_.control_register_1) // the write operation tends to be ignored if only done once (not sure why)
+    //                    && write_reg(kRegNameControl2, regs_.control_register_2);
+    // if (!wrote_regs) {
+    //     return false;
+    // }
 
     // Wait for configuration to be applied
     delay_us(100);
     state_ = kStateStartupChecks;
 
-    bool is_read_regs = read_reg(kRegNameControl1, &val) && (val == regs_.control_register_1)
-                      && read_reg(kRegNameControl2, &val) && (val == regs_.control_register_2);
-    if (!is_read_regs) {
-        return false;
-    }
+    // bool is_read_regs = read_reg(kRegNameControl1, &val) && (val == regs_.control_register_1)
+    //                   && read_reg(kRegNameControl2, &val) && (val == regs_.control_register_2);
+    // if (!is_read_regs) {
+    //     return false;
+    // }
 
-    if (get_error() != FaultType_NoFault) {
-        return false;
-    }
+    // if (get_error() != FaultType_NoFault) {
+    //     return false;
+    // }
 
     // There could have been an nFAULT edge meanwhile. In this case we shouldn't
     // consider the driver ready.
