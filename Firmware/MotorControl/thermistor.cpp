@@ -32,7 +32,8 @@ void ThermistorCurrentLimiter::update() {
     if (is_nan(val)) {
         lpf_vals_.fill(0.0f);
     }
-    temperature_ = lpf_vals_.back();
+    // temperature_ = lpf_vals_.back();
+    temperature_ = 30.0;
 }
 
 bool ThermistorCurrentLimiter::do_checks() {

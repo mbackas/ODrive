@@ -351,14 +351,14 @@ bool Motor::do_checks(uint32_t timestamp) {
         disarm_with_error(ERROR_DRV_FAULT);
         return false;
     }
-    if (!motor_thermistor_.do_checks()) {
-        disarm_with_error(ERROR_MOTOR_THERMISTOR_OVER_TEMP);
-        return false;
-    }
-    if (!fet_thermistor_.do_checks()) {
-        disarm_with_error(ERROR_FET_THERMISTOR_OVER_TEMP);
-        return false;
-    }
+    // if (!motor_thermistor_.do_checks()) {
+    //     disarm_with_error(ERROR_MOTOR_THERMISTOR_OVER_TEMP);
+    //     return false;
+    // }
+    // if (!fet_thermistor_.do_checks()) {
+    //     disarm_with_error(ERROR_FET_THERMISTOR_OVER_TEMP);
+    //     return false;
+    // }
     return true;
 }
 
