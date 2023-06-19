@@ -323,7 +323,7 @@ bool Motor::setup() {
     float actual_gain;
     if (!gate_driver_.config(requested_gain, &actual_gain))
         return false;
-
+    actual_gain = 0.5f; //MB added per DRV8311 config (gain pin tied to GND thru 47k)
     // Values for current controller
     phase_current_rev_gain_ = 1.0f / actual_gain;
     // Clip all current control to actual usable range
@@ -612,7 +612,7 @@ void Motor::current_meas_cb(uint32_t timestamp, std::optional<Iph_ABC_t> current
     if (armed_state_ == 1 || armed_state_ == 2) {
         current_meas_ = {0.0f, 0.0f, 0.0f};
         armed_state_ += 1;
-    } else if (current.has_value() && dc_calib_valid) {
+    } else if (current.has_value() && (dc_calib_valid || true)) { // MB changed && to || true
         current_meas_ = {
             current->phA - DC_calib_.phA,
             current->phB - DC_calib_.phB,
@@ -669,7 +669,8 @@ void Motor::dc_calib_cb(uint32_t timestamp, std::optional<Iph_ABC_t> current) {
     TaskTimerContext tmr{axis_->task_times_.dc_calib};
 
     if (current.has_value()) {
-        const float calib_filter_k = std::min(dc_calib_period / config_.dc_calib_tau, 1.0f);
+        // const float calib_filter_k = std::min(dc_calib_period / config_.dc_calib_tau, 1.0f);
+        const float calib_filter_k = 0; // MUB added for DRV8311
         DC_calib_.phA += (current->phA - DC_calib_.phA) * calib_filter_k;
         DC_calib_.phB += (current->phB - DC_calib_.phB) * calib_filter_k;
         DC_calib_.phC += (current->phC - DC_calib_.phC) * calib_filter_k;

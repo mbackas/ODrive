@@ -25,7 +25,8 @@
 #if HW_VERSION_MINOR <= 3
 #define SHUNT_RESISTANCE (675e-6f)
 #else
-#define SHUNT_RESISTANCE (500e-6f)
+//#define SHUNT_RESISTANCE (500e-6f)
+#define SHUNT_RESISTANCE (1.0f)
 #endif
 
 #define AXIS_COUNT (2)
