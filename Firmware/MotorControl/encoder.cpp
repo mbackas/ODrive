@@ -426,14 +426,14 @@ bool Encoder::run_offset_calibration() {
     float elec_rad_per_enc = axis_->motor_.config_.pole_pairs * 2 * M_PI * (1.0f / (float)(config_.cpr));
     float expected_encoder_delta = config_.calib_scan_distance / elec_rad_per_enc;
     calib_scan_response_ = std::abs(shadow_count_ - init_enc_val);
-    if (std::abs(calib_scan_response_ - expected_encoder_delta) / expected_encoder_delta > config_.calib_range) {
+    if (std::abs(calib_scan_response_ - expected_encoder_delta) / expected_encoder_delta > config_.calib_range) { // MB June 24 2023 woah calib range looks important look into this. Also maybe manually set motor LR and set calib_current and max to DC BUS/6. Also look at DCBUS ADC mismatch.
         set_error(ERROR_CPR_POLEPAIRS_MISMATCH);
         axis_->motor_.disarm();
         return false;
     }
 
     CRITICAL_SECTION() {
-        axis_->open_loop_controller_.target_vel_ = -config_.calib_scan_omega;
+        axis_->open_loop_controller_.target_vel_ = -config_.calib_scan_omega; // check this
     }
 
     // scan backwards
